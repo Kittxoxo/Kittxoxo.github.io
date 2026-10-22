@@ -239,6 +239,26 @@
       border-radius: 0 14px 14px 0;
     }
     body.life-mode .section-intro { color: #65758a; }
+
+    /* Personal portfolio: interactive photo-story slideshows */
+    .personal-photo-grid.slideshow-source { display: none; }
+    .photo-story { margin: 18px 0 8px; position: relative; }
+    .photo-story-stage { position: relative; overflow: hidden; border-radius: 14px; background: #e9e5ec; border: 1px solid #ffffffb8; }
+    .photo-story-stage > a { display: block; line-height: 0; }
+    .photo-story-stage img { display: block; width: 100%; height: 230px; max-width: none; max-height: none; object-fit: cover; border: 0; border-radius: 0; transition: opacity .2s ease; }
+    .photo-story.haudt-story { max-width: 270px; }
+    .photo-story.haudt-story .photo-story-stage img { height: 150px; object-fit: contain; background: #f2edf4; }
+    .photo-story-controls { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; }
+    .photo-story-controls button { border: 1px solid #c8b8cc; border-radius: 999px; background: #fffdf8; color: #34465b; min-width: 36px; height: 34px; padding: 0 12px; cursor: pointer; font: inherit; }
+    .photo-story-controls button:hover { background: #f6dce8; }
+    .photo-story-count { color: #65758a; font-size: 11px; letter-spacing: .08em; white-space: nowrap; }
+    .photo-story-dots { display: flex; gap: 5px; align-items: center; justify-content: center; flex: 1; }
+    .photo-story-dots button { min-width: 0; width: 7px; height: 7px; padding: 0; border: 0; background: #c8b8cc; border-radius: 50%; }
+    .photo-story-dots button[aria-current="true"] { width: 19px; border-radius: 8px; background: #c45c88; }
+    .photo-story-caption { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 8px; color: #65758a; font-size: 11px; }
+    .photo-story-caption strong { color: #34465b; font-weight: 600; }
+    @media (max-width: 760px) { .photo-story-stage img { height: 190px; } .photo-story.haudt-story .photo-story-stage img { height: 130px; } }
+
     @media (max-width: 760px) {
       .site-nav { align-items: flex-start; }
       .site-nav .nav-links { order: 3; width: 100%; justify-content: space-between; flex-wrap: wrap; }
@@ -902,6 +922,67 @@
 
     document.querySelectorAll(".filter").forEach(button => {
       button.setAttribute("aria-pressed", button.classList.contains("active"));
+    });
+
+
+    // Turn each personal photo collection into a compact, navigable slideshow.
+    document.querySelectorAll(".personal-photo-grid").forEach((grid, index) => {
+      const photos = Array.from(grid.querySelectorAll("a")).map(link => ({
+        href: link.getAttribute("href"),
+        src: link.querySelector("img")?.getAttribute("src"),
+        alt: link.querySelector("img")?.getAttribute("alt") || "Portfolio photo"
+      })).filter(photo => photo.src && photo.href);
+      if (!photos.length) return;
+
+      const isHaudt = grid.classList.contains("haudt-thumbnails");
+      const story = document.createElement("div");
+      story.className = "photo-story" + (isHaudt ? " haudt-story" : "");
+      story.setAttribute("aria-label", "Photo slideshow");
+      const stage = document.createElement("div");
+      stage.className = "photo-story-stage";
+      const imageLink = document.createElement("a");
+      imageLink.target = "_blank";
+      imageLink.rel = "noopener";
+      imageLink.setAttribute("aria-label", "Open full-size photo in a new tab");
+      const image = document.createElement("img");
+      image.loading = "lazy";
+      imageLink.appendChild(image);
+      stage.appendChild(imageLink);
+
+      const controls = document.createElement("div");
+      controls.className = "photo-story-controls";
+      const previous = document.createElement("button");
+      previous.type = "button"; previous.textContent = "←"; previous.setAttribute("aria-label", "Previous photo");
+      const dots = document.createElement("div"); dots.className = "photo-story-dots";
+      const next = document.createElement("button");
+      next.type = "button"; next.textContent = "→"; next.setAttribute("aria-label", "Next photo");
+      const count = document.createElement("span"); count.className = "photo-story-count";
+      controls.append(previous, dots, next, count);
+      const caption = document.createElement("div"); caption.className = "photo-story-caption";
+      const captionTitle = document.createElement("strong");
+      const captionHint = document.createElement("span"); captionHint.textContent = "Click photo to view full size ↗";
+      caption.append(captionTitle, captionHint);
+      story.append(stage, controls, caption);
+      grid.insertAdjacentElement("afterend", story);
+      grid.classList.add("slideshow-source");
+
+      let current = 0;
+      const dotButtons = photos.map((photo, i) => {
+        const dot = document.createElement("button"); dot.type = "button";
+        dot.setAttribute("aria-label", `Go to photo ${i + 1}`);
+        dot.addEventListener("click", () => show(i)); dots.appendChild(dot); return dot;
+      });
+      function show(i) {
+        current = (i + photos.length) % photos.length;
+        const photo = photos[current];
+        image.src = photo.src; image.alt = photo.alt; imageLink.href = photo.href;
+        captionTitle.textContent = photo.alt.replace(/^HAUDT photo:?\s*/i, "HAUDT · ") || `Memory ${current + 1}`;
+        count.textContent = `${String(current + 1).padStart(2, "0")} / ${String(photos.length).padStart(2, "0")}`;
+        dotButtons.forEach((dot, j) => dot.setAttribute("aria-current", String(j === current)));
+      }
+      previous.addEventListener("click", () => show(current - 1));
+      next.addEventListener("click", () => show(current + 1));
+      show(0);
     });
 
     const observer = new IntersectionObserver(entries => {
