@@ -4,11 +4,224 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Kitt Dumas — Web development, creative design, and selected projects.">
+  <meta name="description" content="Kitt Dumas — coding projects, dance, student council, and organization work.">
   <title>Kitt Dumas — Creative Developer</title>
   <link rel="icon" type="image/png" href="/images/favicon.png?v=3">
 
   <style>
+
+    /* Two worlds: original fantasy-adventure-inspired design language, no game assets */
+    :root {
+      --bg: #0c1118;
+      --panel: #131d29;
+      --text: #f3f5f7;
+      --muted: #9eacbb;
+      --line: #344352;
+      --accent: #b7e4f5;
+      --accent-2: #d8c8ff;
+      --gold: #e8d4a0;
+      --mode-bg: #f8f5ee;
+      --mode-panel: #fffdf8;
+      --mode-text: #24354a;
+      --mode-muted: #65758a;
+      --mode-line: #d9dfe8;
+    }
+    body {
+      background:
+        radial-gradient(ellipse at 80% 0%, #243d5330, transparent 38%),
+        var(--bg);
+      color: var(--text);
+      transition: background .5s ease, color .5s ease;
+    }
+    .site-nav {
+      position: relative;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .logo-image { width: 46px; }
+    .nav-links { align-items: center; }
+    .nav-links a { transition: color .2s ease; }
+    body:not(.life-mode) .nav-life { display: none; }
+    body.life-mode .nav-coding { display: none; }
+    .mode-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: #ffffff08;
+      padding: 9px 13px 9px 9px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 11px;
+      white-space: nowrap;
+      transition: .3s ease;
+    }
+    .mode-toggle {
+      min-width: 210px;
+      justify-content: flex-start;
+      gap: 12px;
+      padding: 11px 17px 11px 12px;
+      border: 1px solid var(--gold);
+      background: linear-gradient(110deg, #e8d4a018, #b7e4f518);
+      box-shadow: 0 0 0 3px #e8d4a00b, 0 8px 28px #00000020;
+      text-align: left;
+    }
+    .mode-toggle:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 0 0 4px #b7e4f51c, 0 10px 30px #00000025; }
+    .toggle-copy { display: flex; flex-direction: column; gap: 3px; }
+    .toggle-kicker { font-size: 8px; letter-spacing: 2px; opacity: .72; }
+    .toggle-label { font-size: 13px; font-weight: 800; letter-spacing: 1.2px; }
+    .toggle-orb {
+      width: 19px; height: 19px; display: inline-block; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 16px #b7e4f54a;
+    }
+    .hero { position: relative; overflow: hidden; }
+    .hero::after {
+      content: "✧";
+      position: absolute;
+      right: 8%; top: 13%;
+      color: var(--gold);
+      font-size: clamp(80px, 15vw, 190px);
+      opacity: .26;
+      pointer-events: none;
+      text-shadow: 0 0 45px #b7e4f522;
+    }
+    .eyebrow { color: var(--accent); }
+    h1 { position: relative; z-index: 1; }
+    h1 span { color: var(--accent); }
+    .pill { border-radius: 4px 18px 4px 18px; }
+    .project {
+      background: linear-gradient(145deg, #172535, #111923);
+      border-color: #344352;
+    }
+    .preview { min-height: 245px; }
+    .preview::before { border-color: #d9edff45; border-radius: 46% 54% 48% 52%; }
+    .project:nth-child(1) .preview { background: linear-gradient(135deg, #dfc49d, #9e765e); }
+    .project:nth-child(2) .preview { background: linear-gradient(135deg, #b7d5d1, #648c93); }
+    .project:nth-child(3) .preview { background: linear-gradient(135deg, #c66b4c, #733e3e); }
+    .project:nth-child(4) .preview { background: linear-gradient(135deg, #c7c2dd, #777e9f); }
+    .project h3 { letter-spacing: -.04em; }
+    .section-heading h2 { letter-spacing: -.06em; }
+    .outside-section { background: #101923; }
+    .outside-card { border-radius: 5px 22px 5px 22px; }
+    .outside-number { color: var(--gold); }
+
+    /* Personal / Beyond the Screen */
+    body.life-mode {
+      --bg: var(--mode-bg);
+      --panel: var(--mode-panel);
+      --text: var(--mode-text);
+      --muted: var(--mode-muted);
+      --line: var(--mode-line);
+      --accent: #e66d91;
+      --accent-2: #ffc96b;
+      --gold: #8b6bc7;
+      background:
+        radial-gradient(ellipse at 8% 8%, #ffd6e4a8, transparent 32%),
+        radial-gradient(ellipse at 92% 20%, #d7e8ffbd, transparent 30%),
+        radial-gradient(ellipse at 70% 90%, #d9f5d8a8, transparent 34%),
+        #f8f5ee;
+      color: var(--text);
+    }
+    body.life-mode .site-nav {
+      background: #fffdf8cc;
+      border-bottom-color: #d9dfe8;
+      backdrop-filter: blur(14px);
+    }
+    body.life-mode .mode-toggle {
+      background: #fffdf8;
+      color: #24354a;
+      border-color: #d9dfe8;
+    }
+    body.life-mode .toggle-orb {
+      background: linear-gradient(135deg, #e66d91, #ffc96b, #81c9b8);
+      box-shadow: 0 0 17px #e66d9140;
+    }
+    body.life-mode .hero::after { color: #e66d91; opacity: .23; }
+    body.life-mode .project {
+      background: #fffdf8e8;
+      border-color: #e5dce3;
+      box-shadow: 0 12px 34px #5b60700d;
+    }
+    body.life-mode .project .preview {
+      background: linear-gradient(135deg, #ffd4e2, #d7e8ff 50%, #e4f3d8);
+      color: #34465b;
+    }
+    body.life-mode .project:nth-child(2) .preview { background: linear-gradient(135deg, #d7f1e5, #d6e6ff); }
+    body.life-mode .project:nth-child(3) .preview { background: linear-gradient(135deg, #ffe0b8, #ffd6e4); }
+    body.life-mode .project:nth-child(4) .preview { background: linear-gradient(135deg, #e8ddff, #d7e8ff); }
+    body.life-mode .outside-section { background: #ffffff70; }
+    body.life-mode .outside-card {
+      background: #fffdf8e8;
+      border-color: #e5dce3;
+      box-shadow: 0 12px 34px #5b60700d;
+    }
+    body.life-mode .outside-number { color: #b15d85; }
+    body.life-mode .contact { background: linear-gradient(120deg, #ffd3e0, #e1dcff, #d6f0df); color: #24354a; }
+    body.life-mode .contact .eyebrow { color: #8b4d7c; }
+    body.life-mode .contact .pill { border-color: #24354a; }
+    body.life-mode .contact .pill:hover { background: #24354a; color: white; }
+    body.life-mode .skill { background: #fffdf8b8; border-color: #d9dfe8; }
+    body.life-mode .filter.active, body.life-mode .filter:hover {
+      background: #e66d91; border-color: #e66d91; color: white;
+    }
+    .life-only { display: none; }
+    body.life-mode .life-only { display: block; }
+    body.life-mode .coding-only { display: none; }
+    body.life-mode #behind-screen { display: none; }
+    body:not(.life-mode) #outside-screen { display: none; }
+    body.life-mode #outside-screen { display: block; }
+    .life-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+    .memory-card {
+      min-height: 270px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px dashed #c4a9c1;
+      border-radius: 18px 5px 18px 5px;
+      background: linear-gradient(145deg, #ffffffcc, #f9eaf1cc);
+      color: #34465b;
+      overflow: hidden;
+    }
+    .memory-card:nth-child(2) { background: linear-gradient(145deg, #e8f5ff, #f7edff); }
+    .memory-card:nth-child(3) { background: linear-gradient(145deg, #e5f5e8, #fff2d9); }
+    .memory-placeholder {
+      min-height: 155px;
+      display: grid;
+      place-items: center;
+      border: 1px dashed #9aa9b9;
+      border-radius: 12px;
+      color: #65758a;
+      font-size: 12px;
+      text-align: center;
+      padding: 12px;
+    }
+    .memory-card h3 { margin: 15px 0 6px; font-size: 20px; }
+    .memory-card p { margin: 0; color: #65758a; font-size: 12px; line-height: 1.7; }
+    .life-intro {
+      max-width: 620px;
+      padding: 22px 24px;
+      border-left: 3px solid #e66d91;
+      background: #fffdf8b8;
+      color: #53657b;
+      line-height: 1.8;
+      border-radius: 0 14px 14px 0;
+    }
+    body.life-mode .section-intro { color: #65758a; }
+    @media (max-width: 760px) {
+      .site-nav { align-items: flex-start; }
+      .site-nav .nav-links { order: 3; width: 100%; justify-content: space-between; flex-wrap: wrap; }
+      .life-gallery { grid-template-columns: 1fr; }
+      .memory-card { min-height: 230px; }
+    }
+
     :root {
       --bg: #101010;
       --panel: #191919;
@@ -180,6 +393,97 @@
     .project-link { display: inline-block; margin-top: 8px; font-size: 12px; color: var(--accent); }
     .project-link:hover { text-decoration: underline; }
 
+    .section-intro {
+      max-width: 540px;
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .outside-section {
+      background: #151515;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .outside-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 34px;
+    }
+    .outside-card {
+      min-height: 250px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      transition: transform .3s, border-color .3s;
+    }
+    .outside-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+    }
+    .outside-number {
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+    .outside-card h3 {
+      margin: 32px 0 12px;
+      font-size: clamp(23px, 3vw, 32px);
+      letter-spacing: -.05em;
+    }
+    .outside-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .outside-note {
+      margin-top: 28px;
+      max-width: 650px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .timeline-title {
+      font-size: 23px;
+      margin: 14px 0 22px;
+      letter-spacing: -.04em;
+    }
+    .timeline-item {
+      position: relative;
+      display: flex;
+      gap: 14px;
+      padding: 0 0 24px 0;
+      border-left: 1px solid var(--line);
+      margin-left: 6px;
+      padding-left: 20px;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -5px;
+      top: 4px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--bg);
+    }
+    .timeline-item h3 {
+      margin: 0 0 7px;
+      font-size: 16px;
+    }
+    .timeline-item p {
+      margin: 0 0 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .timeline-description { max-width: 400px; }
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -219,9 +523,10 @@
     @media (max-width: 650px) {
       nav { padding: 20px 5%; }
       .nav-links { gap: 12px; font-size: 11px; }
+      .nav-links a { max-width: 100px; text-align: center; }
       .hero { padding: 80px 5%; min-height: 70vh; }
       section { padding: 55px 5%; }
-      .projects, .about-grid { grid-template-columns: 1fr; }
+      .projects, .about-grid, .outside-grid { grid-template-columns: 1fr; }
       .preview { min-height: 190px; }
       .project p { min-height: 0; }
     }
@@ -236,35 +541,42 @@
   </style>
 </head>
 <body>
-  <nav>
+  <nav class="site-nav">
     <a class="logo" href="#" aria-label="Back to top">
       <img src="images/logo.png" alt="KD logo" class="logo-image">
     </a>
     <div class="nav-links">
-      <a href="#projects">Projects</a>
-      <a href="#about">About</a>
+      <a href="#behind-screen" class="nav-coding">Projects</a>
+      <a href="#academic" class="nav-coding">Education & Affiliations</a>
+      <a href="#outside-screen" class="nav-life">Beyond the Screen</a>
       <a href="#contact">Contact</a>
     </div>
+    <button class="mode-toggle" id="modeToggle" type="button" aria-pressed="false">
+      <span class="toggle-orb" aria-hidden="true"></span>
+      <span class="toggle-copy">
+        <span class="toggle-kicker">CHOOSE YOUR SIDE</span>
+        <span class="toggle-label">BEYOND THE SCREEN <span aria-hidden="true">↗</span></span>
+      </span>
+    </button>
   </nav>
 
   <header class="hero">
-    <div class="eyebrow">Portfolio / 2026</div>
-    <h1>DESIGNING<br>THE <span>DIGITAL.</span></h1>
+    <div class="eyebrow"><span class="coding-only">Portfolio / Digital Atelier / 2026</span><span class="life-only">Beyond the Screen / Personal archive / 2026</span></div>
+    <h1 class="coding-only">CRAFTING<br>THE <span>UNKNOWN.</span></h1><h1 class="life-only">MORE THAN<br><span>MY WORK.</span></h1>
     <div class="hero-bottom">
       <p class="intro">
-        I'm Kitt Dumas — a web development student exploring the
-        intersection of functional websites, visual storytelling,
-        and interactive experiences.
+        I’m Kitt Dumas — a web development student who likes turning ideas into thoughtful digital experiences, with a little wonder and character in every detail.
       </p>
-      <a class="pill" href="#projects">EXPLORE MY WORK ↓</a>
+      <a class="pill coding-only" href="#behind-screen">ENTER THE ARCHIVE ↓</a><a class="pill life-only" href="#outside-screen">EXPLORE MY WORLD ↓</a>
     </div>
   </header>
 
-  <section id="projects">
+  <section id="behind-screen">
     <div class="section-heading reveal">
       <div>
-        <div class="eyebrow">Selected work / 01—04</div>
-        <h2>Featured Projects</h2>
+        <div class="eyebrow">Code, creativity & problem-solving / 01</div>
+        <h2>Behind the Screen.</h2>
+        <p class="section-intro">The websites and digital experiences I have built — where ideas become functional, interactive work.</p>
       </div>
       <div class="count" id="count">04 PROJECTS</div>
     </div>
@@ -326,20 +638,128 @@
     </div>
   </section>
 
+  <section id="academic" class="coding-only">
+    <div class="section-heading reveal">
+      <div>
+        <div class="eyebrow">Learning, leadership & community / 02</div>
+        <h2>Education & Affiliations.</h2>
+        <p class="section-intro">The academic path, communities, and experiences that shape the way I think, build, and collaborate.</p>
+      </div>
+    </div>
+    <div class="about-grid reveal">
+      <div>
+        <div class="eyebrow">Academic background</div>
+        <h3 class="timeline-title">Education</h3>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <div>
+            <h3>[Your degree / program]</h3>
+            <p>[Your school or university] · [Expected graduation year]</p>
+            <p class="timeline-description">Add your program, relevant coursework, academic milestones, or achievements here.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow">Affiliations & involvement</div>
+        <h3 class="timeline-title">Communities</h3>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <div>
+            <h3>[Organization / Council]</h3>
+            <p>[Role or position] · [Year / term]</p>
+            <p class="timeline-description">Add your responsibilities, contributions, events, or initiatives here.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <div>
+            <h3>[Dance / Performing Arts Group]</h3>
+            <p>[Role or membership] · [Year / term]</p>
+            <p class="timeline-description">Add performances, projects, or other relevant involvement here.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="outside-screen" class="outside-section">
+    <div class="life-intro life-only" style="margin-bottom: 28px;">
+      <strong>BEYOND THE SCREEN / PERSONAL</strong><br>
+      The people, passions, and experiences behind the portfolio. This is my space for dance, leadership, teamwork, and everything that makes me more than my code.
+    </div>
+    <div class="section-heading reveal">
+      <div>
+        <div class="eyebrow">The person beyond the projects / 02</div>
+        <h2>Outside the Screen.</h2>
+        <p class="section-intro">Not everything I create happens on a computer. This side of my portfolio is about the people, teams, and experiences that shape who I am.</p>
+      </div>
+    </div>
+
+    <div class="life-gallery life-only">
+      <article class="memory-card">
+        <div class="memory-placeholder">PHOTO / VIDEO PLACEHOLDER<br>Dance performance or rehearsal</div>
+        <div>
+          <h3>In Motion.</h3>
+          <p>Add a performance clip, rehearsal photos, or a moment from your dance journey.</p>
+        </div>
+      </article>
+      <article class="memory-card">
+        <div class="memory-placeholder">PHOTO PLACEHOLDER<br>Council event or leadership work</div>
+        <div>
+          <h3>Made Together.</h3>
+          <p>Add event documentation, council projects, planning sessions, or work with your team.</p>
+        </div>
+      </article>
+      <article class="memory-card">
+        <div class="memory-placeholder">PHOTO / VIDEO PLACEHOLDER<br>Organization work and creative materials</div>
+        <div>
+          <h3>Little Things, Big Meaning.</h3>
+          <p>Add publication designs, organization activities, backstage moments, and things you are proud of.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="outside-grid">
+      <article class="outside-card reveal">
+        <div class="outside-number">01 / MOVEMENT</div>
+        <div>
+          <h3>Dance & Performance.</h3>
+          <p>A space for my journey in dance — performances, rehearsals, creative expression, and the lessons I carry beyond the stage.</p>
+        </div>
+      </article>
+
+      <article class="outside-card reveal">
+        <div class="outside-number">02 / LEADERSHIP</div>
+        <div>
+          <h3>Student Council.</h3>
+          <p>A look at my council work, collaboration, event involvement, and the responsibilities that come with serving a student community.</p>
+        </div>
+      </article>
+
+      <article class="outside-card reveal">
+        <div class="outside-number">03 / COMMUNITY</div>
+        <div>
+          <h3>Organizations & Teamwork.</h3>
+          <p>Organization work, creative contributions, event preparation, and the behind-the-scenes effort that helps a team bring ideas to life.</p>
+        </div>
+      </article>
+    </div>
+
+    <p class="outside-note reveal">This section can grow into a visual journal: photos from performances and events, publication materials, projects, reflections, and moments that matter to me.</p>
+  </section>
+
   <section id="about">
     <div class="section-heading reveal">
       <div>
         <div class="eyebrow">A little about me / 05</div>
-        <h2>Beyond the screen.</h2>
+        <h2>A little more about me.</h2>
       </div>
     </div>
     <div class="about-grid reveal">
       <p class="about-copy">
-        I enjoy turning ideas into meaningful digital experiences.
-        My interests span website development, interface design,
-        branding, and creating online spaces that feel intentional
-        and easy to use. I'm always learning and looking for ways to
-        make my work better.
+        I’m someone who enjoys both building things and being part of something bigger.
+        Whether I’m working on a website, dancing, or collaborating with a team,
+        I value creativity, thoughtful work, and the people behind every project.
       </p>
       <div class="skills">
         <span class="skill">HTML & CSS</span>
@@ -386,6 +806,17 @@
           alert("Add this project's website URL in the projectLinks section of the code.");
         });
       }
+    });
+
+    // Switch between the fantasy-inspired coding portfolio and colorful personal journal.
+    const modeToggle = document.getElementById("modeToggle");
+    const toggleLabel = modeToggle.querySelector(".toggle-label");
+    modeToggle.addEventListener("click", () => {
+      const lifeModeOn = document.body.classList.toggle("life-mode");
+      modeToggle.setAttribute("aria-pressed", String(lifeModeOn));
+      toggleLabel.innerHTML = lifeModeOn
+        ? 'BEHIND THE SCREEN <span aria-hidden="true">↗</span>'
+        : 'BEYOND THE SCREEN <span aria-hidden="true">↗</span>';
     });
 
     const filters = document.querySelectorAll(".filter");
