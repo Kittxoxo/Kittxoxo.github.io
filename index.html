@@ -203,6 +203,30 @@
       text-align: center;
       padding: 12px;
     }
+    .personal-photo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 8px 0 14px;
+    }
+    .personal-photo-grid img {
+      display: block;
+      width: 100%;
+      max-width: 145px;
+      max-height: 115px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #ffffffb8;
+    }
+    .personal-photo-grid.haudt-thumbnails img {
+      width: 78px;
+      max-width: 78px;
+      max-height: 64px;
+      opacity: .92;
+    }
+    .personal-photo-grid a { display: block; line-height: 0; }
+    .personal-photo-grid img:hover { opacity: 1; }
     .memory-card h3 { margin: 15px 0 6px; font-size: 20px; }
     .memory-card p { margin: 0; color: #65758a; font-size: 12px; line-height: 1.7; }
     .life-intro {
@@ -697,24 +721,57 @@
 
     <div class="life-gallery life-only">
       <article class="memory-card">
-        <div class="memory-placeholder">PHOTO / VIDEO PLACEHOLDER<br>Dance performance or rehearsal</div>
         <div>
           <h3>In Motion.</h3>
-          <p>Add a performance clip, rehearsal photos, or a moment from your dance journey.</p>
+          <p>HAUDT — dance, performances, rehearsals, and memories from the stage.</p>
+          <div class="personal-photo-grid haudt-thumbnails">
+            <a href="haudt/freshie.jpg" target="_blank" rel="noopener"><img src="haudt/freshie.jpg" alt="HAUDT photo: Freshie" loading="lazy"></a>
+            <a href="haudt/freshie2.jpg" target="_blank" rel="noopener"><img src="haudt/freshie2.jpg" alt="HAUDT photo" loading="lazy"></a>
+            <a href="haudt/hauvid.jpg" target="_blank" rel="noopener"><img src="haudt/hauvid.jpg" alt="HAUDT video-related photo" loading="lazy"></a>
+            <a href="haudt/malakasatmaganda.jpg" target="_blank" rel="noopener"><img src="haudt/malakasatmaganda.jpg" alt="HAUDT photo" loading="lazy"></a>
+            <a href="haudt/panata.jpg" target="_blank" rel="noopener"><img src="haudt/panata.jpg" alt="HAUDT Panata photo" loading="lazy"></a>
+            <a href="haudt/panata2.jpg" target="_blank" rel="noopener"><img src="haudt/panata2.jpg" alt="HAUDT Panata photo" loading="lazy"></a>
+            <a href="haudt/philippines.jpg" target="_blank" rel="noopener"><img src="haudt/philippines.jpg" alt="HAUDT Philippines photo" loading="lazy"></a>
+            <a href="haudt/philippines2.jpg" target="_blank" rel="noopener"><img src="haudt/philippines2.jpg" alt="HAUDT Philippines photo" loading="lazy"></a>
+            <a href="haudt/udays.jpg" target="_blank" rel="noopener"><img src="haudt/udays.jpg" alt="HAUDT UDays photo" loading="lazy"></a>
+            <a href="haudt/udays2.jpg" target="_blank" rel="noopener"><img src="haudt/udays2.jpg" alt="HAUDT UDays photo" loading="lazy"></a>
+          </div>
         </div>
       </article>
       <article class="memory-card">
-        <div class="memory-placeholder">PHOTO PLACEHOLDER<br>Council event or leadership work</div>
         <div>
           <h3>Made Together.</h3>
-          <p>Add event documentation, council projects, planning sessions, or work with your team.</p>
+          <p>Student council activities, assemblies, oath-taking, and event documentation.</p>
+          <div class="personal-photo-grid">
+            <a href="council/freshieOrientation.jpg" target="_blank" rel="noopener"><img src="council/freshieOrientation.jpg" alt="Freshie orientation" loading="lazy"></a>
+            <a href="council/general assembly [1].jpg" target="_blank" rel="noopener"><img src="council/general assembly [1].jpg" alt="General assembly" loading="lazy"></a>
+            <a href="council/general assembly [2].jpg" target="_blank" rel="noopener"><img src="council/general assembly [2].jpg" alt="General assembly" loading="lazy"></a>
+            <a href="council/lineup shoot.jpg" target="_blank" rel="noopener"><img src="council/lineup shoot.jpg" alt="Council lineup shoot" loading="lazy"></a>
+            <a href="council/oath_taking[1].jpg" target="_blank" rel="noopener"><img src="council/oath_taking[1].jpg" alt="Oath-taking" loading="lazy"></a>
+            <a href="council/oath_taking[2].jpg" target="_blank" rel="noopener"><img src="council/oath_taking[2].jpg" alt="Oath-taking" loading="lazy"></a>
+            <a href="council/oath_taking[3].jpg" target="_blank" rel="noopener"><img src="council/oath_taking[3].jpg" alt="Oath-taking" loading="lazy"></a>
+            <a href="council/ydd [1].jpg" target="_blank" rel="noopener"><img src="council/ydd [1].jpg" alt="Council event" loading="lazy"></a>
+            <a href="council/ydd [2].jpg" target="_blank" rel="noopener"><img src="council/ydd [2].jpg" alt="Council event" loading="lazy"></a>
+            <a href="council/ydd [3].jpg" target="_blank" rel="noopener"><img src="council/ydd [3].jpg" alt="Council event" loading="lazy"></a>
+          </div>
         </div>
       </article>
       <article class="memory-card">
-        <div class="memory-placeholder">PHOTO / VIDEO PLACEHOLDER<br>Organization work and creative materials</div>
         <div>
           <h3>Little Things, Big Meaning.</h3>
-          <p>Add publication designs, organization activities, backstage moments, and things you are proud of.</p>
+          <p>CodeGeeks — contributions as Auditor and Election Deputy.</p>
+          <div class="personal-photo-grid">
+            <a href="codegeeks[auditor]/auditor_lineup.jpg" target="_blank" rel="noopener"><img src="codegeeks[auditor]/auditor_lineup.jpg" alt="CodeGeeks auditor lineup" loading="lazy"></a>
+            <a href="codegeeks[auditor]/codegeeks.jpg" target="_blank" rel="noopener"><img src="codegeeks[auditor]/codegeeks.jpg" alt="CodeGeeks activity" loading="lazy"></a>
+            <a href="codegeeks[auditor]/codegeeks[2].jpg" target="_blank" rel="noopener"><img src="codegeeks[auditor]/codegeeks[2].jpg" alt="CodeGeeks activity" loading="lazy"></a>
+            <a href="codegeeks[auditor]/codegeeks[3].jpg" target="_blank" rel="noopener"><img src="codegeeks[auditor]/codegeeks[3].jpg" alt="CodeGeeks activity" loading="lazy"></a>
+            <a href="codegeeks[auditor]/codegeeks[4].jpg" target="_blank" rel="noopener"><img src="codegeeks[auditor]/codegeeks[4].jpg" alt="CodeGeeks activity" loading="lazy"></a>
+            <a href="codegeeks[auditor]/codegeeks[5].jpg" target="_blank" rel="noopener"><img src="codegeeks[auditor]/codegeeks[5].jpg" alt="CodeGeeks activity" loading="lazy"></a>
+            <a href="codegeeks[auditor]/codegeeks[6].jpg" target="_blank" rel="noopener"><img src="codegeeks[auditor]/codegeeks[6].jpg" alt="CodeGeeks activity" loading="lazy"></a>
+            <a href="codegeeks[auditor]/codegeeks[7].jpg" target="_blank" rel="noopener"><img src="codegeeks[auditor]/codegeeks[7].jpg" alt="CodeGeeks activity" loading="lazy"></a>
+            <a href="codegeeks[electiondeputy]/codegeeks_electiondep.jpg" target="_blank" rel="noopener"><img src="codegeeks[electiondeputy]/codegeeks_electiondep.jpg" alt="CodeGeeks Election Deputy" loading="lazy"></a>
+            <a href="codegeeks[electiondeputy]/codegeeks_figma.jpg" target="_blank" rel="noopener"><img src="codegeeks[electiondeputy]/codegeeks_figma.jpg" alt="CodeGeeks Figma work" loading="lazy"></a>
+          </div>
         </div>
       </article>
     </div>
