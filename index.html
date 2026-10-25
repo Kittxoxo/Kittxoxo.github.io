@@ -6,6 +6,9 @@
   <meta name="description" content="Kitt Dumas — coding projects, dance, student council, and organization work.">
   <title>Kitt Dumas — Creative Developer</title>
   <link rel="icon" type="image/png" href="/images/favicon.png?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
 
@@ -583,6 +586,305 @@
     }
 
     /* =========================================================
+       Behind the Screen: quiet engineering theme (coding side only)
+       Scoped with body:not(.life-mode), so Beyond the Screen is
+       untouched. It is the cool, precise opposite of the soft,
+       colorful personal side: right angles, hairlines, one accent.
+       Ink #0b0f14 · panel #111820 · line #1f2a36 · text #e6ebf0
+       Accent azure #6ea8ff
+       ========================================================= */
+    body:not(.life-mode) {
+      --bg: #0b0f14;
+      --panel: #111820;
+      --text: #e6ebf0;
+      --muted: #8794a3;
+      --line: #1f2a36;
+      --accent: #6ea8ff;
+      --gold: #6ea8ff;
+      --kd-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+      --kd-mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+      background-color: #0b0f14;
+      background-image:
+        linear-gradient(#ffffff05 1px, transparent 1px),
+        linear-gradient(90deg, #ffffff05 1px, transparent 1px),
+        radial-gradient(ellipse at 85% 0%, #6ea8ff14, transparent 45%);
+      background-size: 56px 56px, 56px 56px, auto;
+      color: var(--text);
+      font-family: var(--kd-sans);
+    }
+    body:not(.life-mode) a:focus-visible,
+    body:not(.life-mode) button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    /* nav */
+    body:not(.life-mode) .site-nav { border-bottom: 1px solid var(--line); }
+    body:not(.life-mode) .nav-links a {
+      font-family: var(--kd-mono);
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    body:not(.life-mode) .mode-toggle {
+      min-width: 218px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: var(--panel);
+      color: var(--text);
+      box-shadow: none;
+      padding: 11px 18px 11px 14px;
+    }
+    body:not(.life-mode) .mode-toggle:hover {
+      border-color: var(--accent);
+      background: #16202b;
+      box-shadow: 0 0 0 3px #6ea8ff1a;
+      transform: translateY(-1px);
+    }
+    body:not(.life-mode) .toggle-orb {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      background: var(--accent);
+      box-shadow: 0 0 12px #6ea8ff66;
+    }
+    body:not(.life-mode) .toggle-kicker { font-family: var(--kd-mono); font-size: 10px; letter-spacing: 1.5px; opacity: .65; }
+    body:not(.life-mode) .toggle-label { font-size: 13px; font-weight: 600; letter-spacing: 1px; }
+
+    /* shared bits */
+    body:not(.life-mode) .eyebrow { font-family: var(--kd-mono); font-size: 12px; letter-spacing: 1.5px; }
+    body:not(.life-mode) .eyebrow::before {
+      content: "";
+      display: inline-block;
+      width: 18px;
+      height: 1px;
+      margin-right: 12px;
+      vertical-align: middle;
+      background: currentColor;
+    }
+    body:not(.life-mode) .pill {
+      border: 1px solid var(--accent);
+      border-radius: 3px;
+      background: var(--accent);
+      color: #0b0f14;
+      padding: 14px 22px;
+      font-family: var(--kd-mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+    }
+    body:not(.life-mode) .pill:hover { background: transparent; color: var(--accent); border-color: var(--accent); }
+
+    /* hero */
+    body:not(.life-mode) .hero::after { display: none; }
+    body:not(.life-mode) h1 {
+      font-weight: 700;
+      font-size: clamp(54px, 10vw, 128px);
+      line-height: .92;
+      letter-spacing: -.045em;
+    }
+    body:not(.life-mode) .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      font-family: var(--kd-mono);
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 0 #6ea8ff88;
+      animation: kdPulse 2.6s ease-out infinite;
+    }
+    @keyframes kdPulse {
+      0% { box-shadow: 0 0 0 0 #6ea8ff88; }
+      70%, 100% { box-shadow: 0 0 0 9px #6ea8ff00; }
+    }
+
+    /* section headings */
+    body:not(.life-mode) .section-heading h2 {
+      font-weight: 700;
+      font-size: clamp(34px, 5.5vw, 66px);
+      letter-spacing: -.045em;
+    }
+    body:not(.life-mode) .count { font-family: var(--kd-mono); font-size: 12px; letter-spacing: 1.5px; }
+
+    /* filters */
+    body:not(.life-mode) .filter {
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      background: transparent;
+      color: var(--muted);
+      padding: 9px 15px;
+      font-family: var(--kd-mono);
+      font-size: 12px;
+      letter-spacing: .5px;
+    }
+    body:not(.life-mode) .filter:hover { background: #6ea8ff14; border-color: var(--accent); color: var(--accent); }
+    body:not(.life-mode) .filter.active { background: var(--accent); border-color: var(--accent); color: #0b0f14; }
+
+    /* project cards */
+    body:not(.life-mode) .project {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+    }
+    body:not(.life-mode) .project:hover {
+      border-color: #6ea8ff80;
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px #00000050;
+    }
+    body:not(.life-mode) .preview::before { border-radius: 0; border-color: #0b0f1426; }
+    body:not(.life-mode) .preview::after {
+      /* viewfinder corners that appear on hover */
+      content: "";
+      position: absolute;
+      inset: 14px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .3s ease;
+      background:
+        linear-gradient(#0b0f14, #0b0f14) top left / 16px 1px no-repeat,
+        linear-gradient(#0b0f14, #0b0f14) top left / 1px 16px no-repeat,
+        linear-gradient(#0b0f14, #0b0f14) bottom right / 16px 1px no-repeat,
+        linear-gradient(#0b0f14, #0b0f14) bottom right / 1px 16px no-repeat;
+    }
+    body:not(.life-mode) .project:hover .preview::after { opacity: .7; }
+    body:not(.life-mode) .preview-word { font-weight: 800; letter-spacing: -.05em; }
+    body:not(.life-mode) .project-meta { font-family: var(--kd-mono); font-size: 11px; letter-spacing: 1px; }
+    body:not(.life-mode) .project h3 { font-weight: 600; font-size: 25px; letter-spacing: -.03em; }
+    body:not(.life-mode) .project-link { font-family: var(--kd-mono); font-size: 12px; letter-spacing: 1px; transition: transform .25s; }
+    body:not(.life-mode) .project-link:hover { text-decoration: none; transform: translateX(4px); }
+
+    /* education + about */
+    body:not(.life-mode) .timeline-title { font-weight: 600; letter-spacing: -.03em; }
+    body:not(.life-mode) .timeline-item h3 { font-weight: 600; }
+    body:not(.life-mode) .timeline-dot { border-radius: 1px; }
+    body:not(.life-mode) .skill {
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 9px 14px;
+      font-family: var(--kd-mono);
+      font-size: 12px;
+      letter-spacing: .5px;
+      transition: border-color .2s, color .2s;
+    }
+    body:not(.life-mode) .skill:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* contact */
+    body:not(.life-mode) .contact {
+      background: linear-gradient(180deg, #111820, #0b0f14);
+      color: var(--text);
+      border-top: 1px solid var(--line);
+    }
+    body:not(.life-mode) .contact h2 {
+      font-weight: 700;
+      font-size: clamp(40px, 8vw, 96px);
+      letter-spacing: -.05em;
+    }
+    body:not(.life-mode) .contact .pill { background: var(--accent); border-color: var(--accent); color: #0b0f14; }
+    body:not(.life-mode) .contact .pill:hover { background: transparent; border-color: var(--accent); color: var(--accent); }
+    body:not(.life-mode) footer { border-top: 1px solid var(--line); font-family: var(--kd-mono); letter-spacing: 1px; }
+
+    /* soft light that follows the cursor across the grid */
+    body:not(.life-mode)::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(520px circle at var(--mx, 72%) var(--my, 18%), #6ea8ff17, transparent 65%);
+    }
+    body:not(.life-mode) h1 span {
+      background: linear-gradient(90deg, #6ea8ff, #b69cff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    /* hero: copy on the left, a live code editor on the right */
+    body:not(.life-mode) .hero-bottom {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+      grid-template-areas: "intro editor" "cta editor";
+      align-items: end;
+      gap: 22px 56px;
+    }
+    body:not(.life-mode) .hero-bottom .intro { grid-area: intro; }
+    body:not(.life-mode) .hero-bottom .pill { grid-area: cta; justify-self: start; }
+    body:not(.life-mode) .hero-bottom .editor { grid-area: editor; }
+    body:not(.life-mode) .editor {
+      background: #0d131a;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+      font-family: var(--kd-mono);
+      box-shadow: 0 30px 70px #00000066, 0 0 0 1px #6ea8ff0d;
+    }
+    .editor-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      background: #0f1620;
+      border-bottom: 1px solid var(--line);
+    }
+    .editor-dot { width: 9px; height: 9px; border-radius: 50%; background: #2a3947; }
+    .editor-file { margin-left: 10px; font-size: 12px; color: var(--muted); letter-spacing: .5px; }
+    .editor-code {
+      margin: 0;
+      padding: 16px 18px;
+      min-height: calc(10 * 1.75em + 32px);
+      font-family: var(--kd-mono);
+      font-size: 12.5px;
+      line-height: 1.75;
+      white-space: pre;
+      overflow-x: auto;
+      color: #c9d4e0;
+    }
+    .editor-code .k { color: #c4a7ff; }
+    .editor-code .s { color: #8fe3b8; }
+    .editor-code .p { color: #6ea8ff; }
+    .editor-code .f { color: #f2c879; }
+    .editor-code .c { color: #5f6f80; }
+    .caret {
+      display: inline-block;
+      width: 7px;
+      height: 14px;
+      margin-left: 1px;
+      vertical-align: -2px;
+      background: var(--accent);
+      animation: kdBlink 1s steps(1) infinite;
+    }
+    @keyframes kdBlink { 50% { opacity: 0; } }
+
+    /* project cards: light follows the pointer */
+    body:not(.life-mode) .project { position: relative; }
+    body:not(.life-mode) .project::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .3s ease;
+      background: radial-gradient(320px circle at var(--px, 50%) var(--py, 50%), #6ea8ff22, transparent 60%);
+    }
+    body:not(.life-mode) .project:hover::before { opacity: 1; }
+
+    @media (max-width: 900px) {
+      body:not(.life-mode) .hero-bottom {
+        grid-template-columns: 1fr;
+        grid-template-areas: "intro" "cta" "editor";
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .status-dot, .caret { animation: none; }
+    }
+
+    /* =========================================================
        Beyond the Screen: full-screen automatic slideshow
        Opens like a portal from the toggle button, then plays
        chapter by chapter (title card → photos) and loops.
@@ -869,13 +1171,18 @@
   </nav>
 
   <header class="hero">
-    <div class="eyebrow"><span class="coding-only">Portfolio / Digital Atelier / 2026</span><span class="life-only">Beyond the Screen / Personal archive / 2026</span></div>
+    <div class="eyebrow"><span class="coding-only">Portfolio / Web development / 2026</span><span class="life-only">Beyond the Screen / Personal archive / 2026</span></div>
     <h1 class="coding-only">CRAFTING<br>THE <span>UNKNOWN.</span></h1><h1 class="life-only">MORE THAN<br><span>MY WORK.</span></h1>
+    <p class="status coding-only"><span class="status-dot" aria-hidden="true"></span>Open to collaborations</p>
     <div class="hero-bottom">
       <p class="intro">
         I’m Kitt Dumas — a web development student who likes turning ideas into thoughtful digital experiences, with a little wonder and character in every detail.
       </p>
       <a class="pill coding-only" href="#behind-screen">ENTER THE ARCHIVE ↓</a><a class="pill life-only" href="#outside-screen">EXPLORE MY WORLD ↓</a>
+      <div class="editor coding-only" aria-hidden="true">
+        <div class="editor-bar"><span class="editor-dot"></span><span class="editor-dot"></span><span class="editor-dot"></span><span class="editor-file">kitt.config.js</span></div>
+        <pre class="editor-code" id="editorCode"></pre>
+      </div>
     </div>
   </header>
 
@@ -1295,6 +1602,63 @@
     document.querySelectorAll(".reveal").forEach(element => {
       observer.observe(element);
     });
+
+
+    // ---- Behind the Screen: live code editor, cursor light, card glow ----
+    (function () {
+      const code = document.getElementById("editorCode");
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const html = [
+        '<span class="k">const</span> <span class="p">kitt</span> = {',
+        '  <span class="p">role</span>: <span class="s">"web development student"</span>,',
+        '  <span class="p">stack</span>: [<span class="s">"HTML &amp; CSS"</span>, <span class="s">"JavaScript"</span>, <span class="s">"PHP / MySQL"</span>],',
+        '  <span class="p">built</span>: [<span class="s">"Chickenjoo"</span>, <span class="s">"AngeliteCare"</span>, <span class="s">"Hapag"</span>, <span class="s">"KOZI"</span>],',
+        '  <span class="p">offScreen</span>: [<span class="s">"dance"</span>, <span class="s">"student council"</span>],',
+        '  <span class="p">status</span>: <span class="s">"open to collaborations"</span>,',
+        '};',
+        '',
+        'kitt.<span class="f">build</span>(yourIdea);',
+        '<span class="c">// the rest lives on the other side ↗</span>'
+      ].join("\n");
+
+      if (code) {
+        if (reduce) {
+          code.innerHTML = html;
+        } else {
+          let i = 0;
+          const step = () => {
+            if (i >= html.length) { code.innerHTML = html + '<span class="caret"></span>'; return; }
+            while (html[i] === "<") i = html.indexOf(">", i) + 1;   // tags appear instantly
+            if (html[i] === "&") i = html.indexOf(";", i);          // so do entities
+            i++;
+            code.innerHTML = html.slice(0, i) + '<span class="caret"></span>';
+            setTimeout(step, html[i - 1] === "\n" ? 240 : 22 + Math.random() * 38);
+          };
+          setTimeout(step, 700);
+        }
+      }
+
+      // soft light following the pointer across the grid
+      let frame = 0, mx = 0, my = 0;
+      window.addEventListener("pointermove", e => {
+        mx = e.clientX; my = e.clientY;
+        if (frame) return;
+        frame = requestAnimationFrame(() => {
+          frame = 0;
+          document.body.style.setProperty("--mx", mx + "px");
+          document.body.style.setProperty("--my", my + "px");
+        });
+      }, { passive: true });
+
+      // glow that follows the pointer inside each project card
+      document.querySelectorAll(".project").forEach(card => {
+        card.addEventListener("pointermove", e => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty("--px", (e.clientX - r.left) + "px");
+          card.style.setProperty("--py", (e.clientY - r.top) + "px");
+        });
+      });
+    })();
 
 
     // ================================================================
