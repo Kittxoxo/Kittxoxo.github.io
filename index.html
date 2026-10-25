@@ -836,7 +836,7 @@
     .editor-code {
       margin: 0;
       padding: 16px 18px;
-      min-height: calc(10 * 1.75em + 32px);
+      min-height: calc(11 * 1.75em + 32px);
       font-family: var(--kd-mono);
       font-size: 12.5px;
       line-height: 1.75;
@@ -882,6 +882,69 @@
     }
     @media (prefers-reduced-motion: reduce) {
       .status-dot, .caret { animation: none; }
+    }
+
+    /* Awards & Activities log (coding side) */
+    .cred-tabs { display: flex; border-bottom: 1px solid var(--line); margin-bottom: 22px; }
+    .cred-tab {
+      margin-right: 26px;
+      padding: 12px 0;
+      background: none;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      color: var(--muted);
+      font-family: var(--kd-mono, monospace);
+      font-size: 14px;
+      cursor: pointer;
+      transition: color .2s, border-color .2s;
+    }
+    .cred-tab span { margin-left: 8px; color: var(--accent); font-size: 12px; }
+    .cred-tab:hover { color: var(--text); }
+    .cred-tab[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); }
+    .cred-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+    .cred-chip {
+      cursor: pointer;
+      padding: 8px 14px;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      font-family: var(--kd-mono, monospace);
+      font-size: 12px;
+      transition: .2s;
+    }
+    .cred-chip:hover { border-color: var(--accent); color: var(--accent); }
+    .cred-chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #0b0f14; }
+    .cred-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+    .cred-item {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr) minmax(0, 260px);
+      gap: 20px;
+      align-items: baseline;
+      padding: 16px 8px;
+      border-bottom: 1px solid var(--line);
+      transition: background .2s, padding-left .2s;
+      animation: rise .45s ease both;
+      animation-delay: calc(var(--i, 0) * 28ms);
+    }
+    .cred-item:hover { background: #6ea8ff0d; padding-left: 16px; }
+    .cred-year { font-family: var(--kd-mono, monospace); font-size: 13px; color: var(--accent); white-space: nowrap; }
+    .cred-main strong { font-size: 17px; font-weight: 600; letter-spacing: -.02em; }
+    .cred-sub { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .cred-note {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0 0;
+      font-family: var(--kd-mono, monospace);
+      font-size: 12px;
+      letter-spacing: .5px;
+      color: var(--muted);
+    }
+    .cred-org { font-family: var(--kd-mono, monospace); font-size: 11px; line-height: 1.6; letter-spacing: .5px; color: var(--muted); text-align: right; }
+    @media (max-width: 760px) {
+      .cred-item { grid-template-columns: 1fr; gap: 4px; }
+      .cred-org { text-align: left; }
     }
 
     /* =========================================================
@@ -1158,6 +1221,7 @@
     <div class="nav-links">
       <a href="#behind-screen" class="nav-coding">Projects</a>
       <a href="#academic" class="nav-coding">Education & Affiliations</a>
+      <a href="#credentials" class="nav-coding">Awards & Activities</a>
       <a href="#outside-screen" class="nav-life">Beyond the Screen</a>
       <a href="#contact">Contact</a>
     </div>
@@ -1176,7 +1240,7 @@
     <p class="status coding-only"><span class="status-dot" aria-hidden="true"></span>Open to collaborations</p>
     <div class="hero-bottom">
       <p class="intro">
-        I’m Kitt Dumas — a web development student who likes turning ideas into thoughtful digital experiences, with a little wonder and character in every detail.
+        I’m Kitt Dumas — a web development student at Holy Angel University’s School of Computing who likes turning ideas into thoughtful digital experiences, with a little wonder and character in every detail.
       </p>
       <a class="pill coding-only" href="#behind-screen">ENTER THE ARCHIVE ↓</a><a class="pill life-only" href="#outside-screen">EXPLORE MY WORLD ↓</a>
       <div class="editor coding-only" aria-hidden="true">
@@ -1268,9 +1332,25 @@
         <div class="timeline-item">
           <span class="timeline-dot"></span>
           <div>
-            <h3>[Your degree / program]</h3>
-            <p>[Your school or university] · [Expected graduation year]</p>
-            <p class="timeline-description">Add your program, relevant coursework, academic milestones, or achievements here.</p>
+            <h3>School of Computing</h3>
+            <p>Holy Angel University · 2024 – present</p>
+            <p class="timeline-description">Dean’s Lister for S.Y. 2024–2025 and the 1st semester of S.Y. 2025–2026. HAU Dance Theater scholar since 2025.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <div>
+            <h3>Senior High School · STEM</h3>
+            <p>Holy Angel University · 2022 – 2024</p>
+            <p class="timeline-description">With High Honors in both school years. Champion and People’s Choice Award at BIOTRONS 2.0: Sustainable Arduino (2024).</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <div>
+            <h3>Junior High School</h3>
+            <p>Holy Angel University · 2018 – 2022</p>
+            <p class="timeline-description">Honor’s Class Scholarship Grantee (2018–2019), With Honors (2019–2021), and With High Honors (2021–2022).</p>
           </div>
         </div>
       </div>
@@ -1280,21 +1360,79 @@
         <div class="timeline-item">
           <span class="timeline-dot"></span>
           <div>
-            <h3>[Organization / Council]</h3>
-            <p>[Role or position] · [Year / term]</p>
-            <p class="timeline-description">Add your responsibilities, contributions, events, or initiatives here.</p>
+            <h3>Human Resources Councilor</h3>
+            <p>College Student Council · School of Computing · present</p>
           </div>
         </div>
         <div class="timeline-item">
           <span class="timeline-dot"></span>
           <div>
-            <h3>[Dance / Performing Arts Group]</h3>
-            <p>[Role or membership] · [Year / term]</p>
-            <p class="timeline-description">Add performances, projects, or other relevant involvement here.</p>
+            <h3>Election Deputy</h3>
+            <p>Code Geeks · School of Computing · present</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <div>
+            <h3>Member</h3>
+            <p>Holy Angel University Dance Theater · present</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <div>
+            <h3>Member</h3>
+            <p>Sinukwan Kapampangan · present</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <div>
+            <h3>Staff, Department of Finance</h3>
+            <p>HAU College Student Council · School of Computing · 2025</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <div>
+            <h3>Member</h3>
+            <p>Loop · School of Computing · 2024 – 2025</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <div>
+            <h3>Member</h3>
+            <p>Code Geeks · School of Computing · 2024 – 2025</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-dot"></span>
+          <div>
+            <h3>Member</h3>
+            <p>HAU Science Club · Junior High School · 2018 – 2020</p>
           </div>
         </div>
       </div>
     </div>
+  </section>
+
+  <section id="credentials" class="coding-only">
+    <div class="section-heading reveal">
+      <div>
+        <div class="eyebrow">Recognition & participation / 03</div>
+        <h2>Awards & Activities.</h2>
+        <p class="section-intro">Honors, competitions, and events, from basic education to the School of Computing. This list is still being updated, with more awards and activities on the way.</p>
+      </div>
+      <div class="count" id="credCount">15 AWARDS</div>
+    </div>
+    <div class="cred-tabs reveal" role="tablist" aria-label="Awards or activities">
+      <button class="cred-tab" id="tabAwards" type="button" role="tab" data-tab="awards" aria-selected="true">Awards<span id="tabAwardsN">15</span></button>
+      <button class="cred-tab" id="tabActivities" type="button" role="tab" data-tab="activities" aria-selected="false">Activities<span id="tabActivitiesN">22</span></button>
+    </div>
+    <div class="cred-chips" id="credChips" aria-label="Filter by category"></div>
+    <ol class="cred-list" id="credList"></ol>
+    <p class="cred-note"><span class="status-dot" aria-hidden="true"></span>Still updating. Many awards and activities haven’t been added yet.</p>
   </section>
 
   <section id="outside-screen" class="outside-section">
@@ -1429,7 +1567,7 @@
   </section>
 
   <footer>
-    <span>© 2026 KITT DUMAS</span>
+    <span>© 2026 KITT ANGELU DUMAS</span>
     <span>DESIGNED WITH INTENTION.</span>
     <a href="#">BACK TO TOP ↑</a>
   </footer>
@@ -1611,6 +1749,7 @@
       const html = [
         '<span class="k">const</span> <span class="p">kitt</span> = {',
         '  <span class="p">role</span>: <span class="s">"web development student"</span>,',
+        '  <span class="p">school</span>: <span class="s">"Holy Angel University"</span>,',
         '  <span class="p">stack</span>: [<span class="s">"HTML &amp; CSS"</span>, <span class="s">"JavaScript"</span>, <span class="s">"PHP / MySQL"</span>],',
         '  <span class="p">built</span>: [<span class="s">"Chickenjoo"</span>, <span class="s">"AngeliteCare"</span>, <span class="s">"Hapag"</span>, <span class="s">"KOZI"</span>],',
         '  <span class="p">offScreen</span>: [<span class="s">"dance"</span>, <span class="s">"student council"</span>],',
@@ -1658,6 +1797,117 @@
           card.style.setProperty("--py", (e.clientY - r.top) + "px");
         });
       });
+    })();
+
+
+    // ---- Awards & Activities log: tabs + category filters ----
+    (function () {
+      const list = document.getElementById("credList");
+      const chipsBox = document.getElementById("credChips");
+      const countEl = document.getElementById("credCount");
+      if (!list) return;
+
+      // [year, headline, detail, organization, category]
+      const DATA = {
+        awards: {
+          label: "awards",
+          cats: { dance: "Dance & competitions", academic: "Academic honors", tech: "Tech" },
+          items: [
+            ["2026", "First Runner-up", "HAU UDays 2026: Mass Dance Competition", "HAU-USC", "dance"],
+            ["2026", "Second Runner-up", "HAU UDays 2026: Street Dance Competition", "HAU-USC", "dance"],
+            ["2025 – present", "HAU Dance Theater Scholar", "", "Holy Angel University", "dance"],
+            ["S.Y. 2025 – 2026", "Dean’s Lister", "1st Semester", "Holy Angel University", "academic"],
+            ["2025", "First Runner-up", "Byte the Beat: Dance Competition", "HAU – School of Computing", "dance"],
+            ["2025", "Second Runner-up", "YDD Pamanyulung: Kabataan Got Talent", "HAU-USC", "dance"],
+            ["2024 – 2025", "Dean’s Lister", "1st & 2nd Semester", "Holy Angel University", "academic"],
+            ["2024", "Champion & People’s Choice Award", "BIOTRONS 2.0: Sustainable Arduino", "HAU – Basic Education", "tech"],
+            ["2024", "Champion", "HAU SHS Days Dance Competition", "HAU – Basic Education", "dance"],
+            ["2023 – 2024", "With High Honors", "STEM, 1st & 2nd Semester", "Holy Angel University", "academic"],
+            ["2023", "Champion", "HAU Matenakan: Cultural Dance Competition", "HAU-USC", "dance"],
+            ["2022 – 2023", "With High Honors", "STEM, 1st & 2nd Semester", "Holy Angel University", "academic"],
+            ["2021 – 2022", "With High Honors", "", "Holy Angel University", "academic"],
+            ["2019 – 2021", "With Honors", "", "Holy Angel University", "academic"],
+            ["2018 – 2019", "Honor’s Class Scholarship Grantee", "", "Holy Angel University", "academic"]
+          ]
+        },
+        activities: {
+          label: "activities",
+          cats: { perform: "Performances & competitions", lead: "Leadership & organizing", learn: "Learning" },
+          items: [
+            ["2026", "Participant", "HAU UDays SILIM: Mass Dance Competition", "HAU-USC", "perform"],
+            ["2026", "Participant", "HAU UDays SULONG: Street Dance Competition", "HAU-USC", "perform"],
+            ["2026", "Participant", "HAU UDays SALIGAN: Laro ng Lahi", "HAU-USC", "perform"],
+            ["2026", "HAUDT Performer", "HAU UDays 2026 Opening Program", "HAU-USC", "perform"],
+            ["2026", "HAUDT Performer", "HAU UDays 2026 Kislap", "HAU-USC", "perform"],
+            ["2026", "Aesthetics Assistant", "HAU UDays 2026: Mr. & Ms. Sportsfest", "HAU-USC", "lead"],
+            ["2025", "HAUDT Performer", "Christmas Tree Lighting Ceremony", "Holy Angel University Dance Theater", "perform"],
+            ["2025", "HAU Representative", "Sinukwan Festival", "Magbalaue Folk and Cultural Dance Club", "perform"],
+            ["2025", "HAUDT Performer", "43rd Conference of the ASEAN Federation of Engineering Organizations (CAFEO 43)", "", "perform"],
+            ["2025", "HAUDT Performer", "Fiestang Kuliat Cultural Night 2025", "Holy Angel University Dance Theater", "perform"],
+            ["2025", "HAUDT Performer", "DSDW Open Forum", "Holy Angel University Dance Theater", "perform"],
+            ["2025", "Officer", "Fiestang Kurso 2025", "HAU – Basic Education", "lead"],
+            ["2025", "Attendee & Performer", "4th Regional Cybersecurity Conference", "HAU – School of Computing", "learn"],
+            ["2025", "Officer", "Release the Foxes: Mentorship Program", "HAU – School of Computing", "lead"],
+            ["2025", "Officer", "WEB 101: A Beginner’s Guide to Web Development", "Code Geeks", "lead"],
+            ["2025", "Performer", "YDD: Pamanyulung Kabataan Got Talent", "HAU-USC", "perform"],
+            ["2025", "Representative", "TechHorizon Convention 2025", "NCLE", "lead"],
+            ["2025", "HAUDT Performer", "HAU Freshmen Orientation", "HAU-USC", "perform"],
+            ["2025", "Officer", "SOC General Assembly 2025", "HAU-USC", "lead"],
+            ["2025", "Attendee", "Sustainable Community Extension Services", "HAU-OSA", "learn"],
+            ["2025", "SOC Representative", "HAU UDays 2025: Best Dance Crew", "HAU-USC", "perform"],
+            ["2024", "Performer", "HAU SoC Days: Best Dance Crew", "HAU – School of Computing", "perform"]
+          ]
+        }
+      };
+
+      const tabs = Array.from(document.querySelectorAll(".cred-tab"));
+      let tab = "awards", cat = "all";
+
+      function el(tag, cls, text) {
+        const e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text) e.textContent = text;
+        return e;
+      }
+
+      function render() {
+        const set = DATA[tab];
+        chipsBox.innerHTML = "";
+        const addChip = (key, label, n) => {
+          const b = el("button", "cred-chip", label + " · " + n);
+          b.type = "button";
+          b.setAttribute("aria-pressed", String(cat === key));
+          b.addEventListener("click", () => { cat = key; render(); });
+          chipsBox.appendChild(b);
+        };
+        addChip("all", "All", set.items.length);
+        Object.keys(set.cats).forEach(k => {
+          addChip(k, set.cats[k], set.items.filter(it => it[4] === k).length);
+        });
+
+        const shown = set.items.filter(it => cat === "all" || it[4] === cat);
+        list.innerHTML = "";
+        shown.forEach((it, i) => {
+          const li = el("li", "cred-item");
+          li.style.setProperty("--i", i);
+          li.appendChild(el("span", "cred-year", it[0]));
+          const main = el("div", "cred-main");
+          main.appendChild(el("strong", "", it[1]));
+          if (it[2]) main.appendChild(el("span", "cred-sub", it[2]));
+          li.appendChild(main);
+          li.appendChild(el("span", "cred-org", it[3]));
+          list.appendChild(li);
+        });
+        countEl.textContent = String(shown.length).padStart(2, "0") + " " + set.label.toUpperCase();
+        tabs.forEach(t => t.setAttribute("aria-selected", String(t.dataset.tab === tab)));
+      }
+
+      tabs.forEach(t => t.addEventListener("click", () => {
+        tab = t.dataset.tab; cat = "all"; render();
+      }));
+      document.getElementById("tabAwardsN").textContent = DATA.awards.items.length;
+      document.getElementById("tabActivitiesN").textContent = DATA.activities.items.length;
+      render();
     })();
 
 
