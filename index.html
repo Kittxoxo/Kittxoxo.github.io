@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -582,6 +581,271 @@
       }
       .reveal { opacity: 1; transform: none; }
     }
+
+    /* =========================================================
+       Beyond the Screen: full-screen automatic slideshow
+       Opens like a portal from the toggle button, then plays
+       chapter by chapter (title card → photos) and loops.
+       ========================================================= */
+    html.ss-lock { overflow: hidden; }
+    .replay-btn { margin-top: 16px; cursor: pointer; background: transparent; color: #24354a; border-color: #c4a9c1; }
+    body.life-mode .replay-btn:hover { color: #fff; }
+
+    .ss {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #0d0912;
+      color: #fff;
+      overflow: hidden;
+      visibility: hidden;
+      clip-path: circle(0% at var(--ox, 50%) var(--oy, 50%));
+      transition: clip-path .95s cubic-bezier(.7, 0, .2, 1), visibility 0s linear .95s;
+      --ss-ac: #ff9bbd;
+    }
+    .ss.open {
+      visibility: visible;
+      clip-path: circle(150% at var(--ox, 50%) var(--oy, 50%));
+      transition-delay: 0s;
+    }
+    .ss:focus { outline: none; }
+    .ss-stage { position: absolute; inset: 0; z-index: 1; }
+    .ss-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.1s ease; }
+    .ss-slide.in { opacity: 1; }
+    .ss-slide.out { opacity: 0; }
+
+    /* photo slides: blurred copy fills the screen, sharp copy sits on top */
+    .ss-bg {
+      position: absolute;
+      top: -6%; left: -6%;
+      width: 112%; height: 112%;
+      object-fit: cover;
+      filter: blur(38px) saturate(1.3) brightness(.55);
+    }
+    .ss-fgbox { position: absolute; inset: 78px 4vw 96px; }
+    .ss-fg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 24px 50px rgba(0, 0, 0, .55));
+      animation: ssKen var(--dur, 6700ms) ease-in-out both;
+    }
+    @keyframes ssKen {
+      from { transform: translate(var(--x0, 0), var(--y0, 0)) scale(var(--s0, 1)); }
+      to { transform: translate(var(--x1, 0), var(--y1, 0)) scale(var(--s1, 1.07)); }
+    }
+
+    /* chapter title cards */
+    .ss-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6vw;
+      padding: 90px 7vw;
+      background:
+        radial-gradient(ellipse at 18% 22%, var(--glow), transparent 55%),
+        linear-gradient(135deg, var(--c1), var(--c2));
+    }
+    .ss-title-inner { max-width: 640px; }
+    .ss-kicker { display: block; color: var(--ac, var(--ss-ac)); font-size: 14px; letter-spacing: 2px; }
+    .ss-big {
+      margin: 16px 0 16px;
+      font-size: clamp(46px, 9vw, 120px);
+      line-height: .95;
+      letter-spacing: -.06em;
+      font-weight: 900;
+      text-shadow: 0 0 60px var(--ac, var(--ss-ac));
+    }
+    .ss-word { display: inline-block; white-space: nowrap; }
+    .ss-ch {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(40px) rotate(6deg);
+      animation: ssCh .8s cubic-bezier(.2, .8, .2, 1) forwards;
+      animation-delay: calc(var(--i) * 45ms + 250ms);
+    }
+    @keyframes ssCh { to { opacity: 1; transform: none; } }
+    .ss-sub {
+      margin: 0;
+      max-width: 480px;
+      color: #ffffffc4;
+      line-height: 1.7;
+      font-size: clamp(14px, 1.6vw, 18px);
+      opacity: 0;
+      animation: ssFade 1s .9s forwards;
+    }
+    .ss-count { display: block; margin-top: 22px; color: #ffffff99; font-size: 13px; opacity: 0; animation: ssFade 1s 1.3s forwards; }
+    @keyframes ssFade { to { opacity: 1; } }
+
+    /* the polaroid stack dealt onto each chapter card */
+    .ss-stack { position: relative; width: min(34vw, 360px); aspect-ratio: 4 / 5; flex: none; }
+    .ss-stack img {
+      position: absolute;
+      width: 72%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border: 8px solid #fff;
+      border-bottom-width: 30px;
+      border-radius: 4px;
+      box-shadow: 0 20px 50px #0008;
+      opacity: 0;
+      animation: ssDeal .9s cubic-bezier(.2, .8, .2, 1) forwards;
+    }
+    .ss-stack img:nth-child(1) { left: 0; top: 0; --r: -9deg; animation-delay: .5s; }
+    .ss-stack img:nth-child(2) { left: 26%; top: 20%; --r: 4deg; animation-delay: .75s; }
+    .ss-stack img:nth-child(3) { left: 6%; top: 44%; --r: -3deg; animation-delay: 1s; }
+    @keyframes ssDeal {
+      from { opacity: 0; transform: translateY(70px) rotate(calc(var(--r) * 3)) scale(.8); }
+      to { opacity: 1; transform: rotate(var(--r)); }
+    }
+
+    /* closing card */
+    .ss-outro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 90px 7vw;
+      background:
+        radial-gradient(circle at 50% 40%, #e66d9155, transparent 55%),
+        linear-gradient(135deg, #1b0f2a, #0f2433);
+    }
+    .ss-outro .ss-sub { margin: 0 auto; }
+    .ss-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 28px; opacity: 0; animation: ssFade 1s 1.4s forwards; }
+    .ss-btn {
+      cursor: pointer;
+      padding: 13px 22px;
+      border-radius: 30px;
+      border: 1px solid #ffffff66;
+      background: transparent;
+      color: #fff;
+      font-size: 14px;
+      transition: background .2s, color .2s;
+    }
+    .ss-btn:hover { background: #ffffff26; }
+    .ss-btn.primary { background: #fff; color: #24354a; border-color: #fff; }
+    .ss-btn.primary:hover { background: #ffd6e4; }
+
+    .ss-sparkles { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+    .ss-sparkle {
+      position: absolute;
+      bottom: -30px;
+      color: #fff;
+      opacity: 0;
+      text-shadow: 0 0 12px var(--ss-ac);
+      animation: ssFloat linear infinite;
+    }
+    @keyframes ssFloat {
+      0% { transform: translateY(0) rotate(0); opacity: 0; }
+      10% { opacity: .8; }
+      90% { opacity: .45; }
+      100% { transform: translateY(-115vh) rotate(180deg); opacity: 0; }
+    }
+    .ss-vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background:
+        linear-gradient(#000000aa, transparent 22%, transparent 68%, #000000bb),
+        radial-gradient(ellipse at center, transparent 55%, #00000066);
+    }
+
+    /* tap/click zones for previous / next */
+    .ss-zone {
+      position: absolute;
+      z-index: 3;
+      top: 70px;
+      bottom: 90px;
+      width: 28%;
+      background: none;
+      border: 0;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ss-zone-prev { left: 0; }
+    .ss-zone-next { right: 0; }
+    .ss.on-outro .ss-zone { pointer-events: none; }
+
+    /* top bar: one progress segment per chapter */
+    .ss-top {
+      position: absolute;
+      z-index: 4;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      padding: 16px 22px;
+      pointer-events: none;
+    }
+    .ss-bars { flex: 1; display: flex; gap: 8px; }
+    .ss-bar {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding: 6px 0;
+      background: none;
+      border: 0;
+      color: #fff;
+      text-align: left;
+      cursor: pointer;
+      opacity: .7;
+      pointer-events: auto;
+      transition: opacity .3s;
+    }
+    .ss-bar.active, .ss-bar:hover { opacity: 1; }
+    .ss-bar-label { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ss-bar-track { display: block; height: 3px; border-radius: 3px; background: #ffffff40; overflow: hidden; }
+    .ss-bar-fill { display: block; height: 100%; background: #fff; transform-origin: left; transform: scaleX(0); }
+    .ss-tools { display: flex; gap: 8px; pointer-events: auto; }
+    .ss-tool {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid #ffffff55;
+      background: #0000004d;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: background .2s;
+    }
+    .ss-tool:hover { background: #ffffff33; }
+    .ss-tool:focus-visible, .ss-bar:focus-visible, .ss-btn:focus-visible, .ss-zone:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+    /* bottom bar: caption + counter */
+    .ss-bottom {
+      position: absolute;
+      z-index: 4;
+      left: 0; right: 0; bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      padding: 22px 28px;
+      pointer-events: none;
+    }
+    .ss-chapter { display: block; color: var(--ss-ac); font-size: 13px; letter-spacing: 1px; margin-bottom: 6px; }
+    .ss-caption-text { font-size: clamp(18px, 2.6vw, 30px); letter-spacing: -.03em; }
+    .ss-meta { text-align: right; color: #ffffffb3; font-size: 13px; letter-spacing: 1px; }
+    .ss-hint { display: block; margin-top: 6px; opacity: .6; font-size: 11px; }
+
+    .ss.paused .ss-fg, .ss.paused .ss-sparkle { animation-play-state: paused; }
+
+    @media (max-width: 760px) {
+      .ss-fgbox { inset: 84px 10px 90px; }
+      .ss-stack, .ss-hint, .ss-bar-label { display: none; }
+      .ss-tool { width: 36px; height: 36px; }
+      .ss-top { padding: 12px; gap: 10px; }
+      .ss-bottom { padding: 18px; }
+      .ss-title { padding: 90px 7vw; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ss-sparkle { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -729,7 +993,8 @@
   <section id="outside-screen" class="outside-section">
     <div class="life-intro life-only" style="margin-bottom: 28px;">
       <strong>BEYOND THE SCREEN / PERSONAL</strong><br>
-      The people, passions, and experiences behind the portfolio. This is my space for dance, leadership, teamwork, and everything that makes me more than my code.
+      The people, passions, and experiences behind the portfolio. This is my space for dance, leadership, teamwork, and everything that makes me more than my code.<br>
+      <button class="pill replay-btn" id="replaySlides" type="button">▶ Play the slideshow</button>
     </div>
     <div class="section-heading reveal">
       <div>
@@ -862,6 +1127,35 @@
     <a href="#">BACK TO TOP ↑</a>
   </footer>
 
+  <!-- Full-screen slideshow (opens when "Beyond the Screen" is pressed) -->
+  <div class="ss" id="slideshow" role="dialog" aria-modal="true" aria-label="Beyond the Screen slideshow" tabindex="-1">
+    <div class="ss-stage" id="ssStage"></div>
+    <div class="ss-sparkles" id="ssSparkles" aria-hidden="true"></div>
+    <div class="ss-vignette" aria-hidden="true"></div>
+    <button class="ss-zone ss-zone-prev" id="ssPrev" type="button" aria-label="Previous"></button>
+    <button class="ss-zone ss-zone-next" id="ssNext" type="button" aria-label="Next"></button>
+
+    <div class="ss-top">
+      <div class="ss-bars" id="ssBars"></div>
+      <div class="ss-tools">
+        <button class="ss-tool" id="ssPlay" type="button" aria-label="Pause slideshow">❚❚</button>
+        <button class="ss-tool" id="ssFull" type="button" aria-label="Toggle full screen">⛶</button>
+        <button class="ss-tool" id="ssClose" type="button" aria-label="Close slideshow">✕</button>
+      </div>
+    </div>
+
+    <div class="ss-bottom">
+      <div>
+        <span class="ss-chapter" id="ssChapter"></span>
+        <strong class="ss-caption-text" id="ssCaption"></strong>
+      </div>
+      <div class="ss-meta">
+        <span id="ssCount"></span>
+        <span class="ss-hint">← → to browse · Space to pause · Esc to close</span>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Add your real published website links here.
     const projectLinks = {
@@ -894,6 +1188,10 @@
       toggleLabel.innerHTML = lifeModeOn
         ? 'BEHIND THE SCREEN <span aria-hidden="true">↗</span>'
         : 'BEYOND THE SCREEN <span aria-hidden="true">↗</span>';
+      // Entering the personal side launches the full-screen slideshow.
+      if (lifeModeOn && window.openBeyondSlideshow) {
+        window.openBeyondSlideshow(modeToggle);
+      }
     });
 
     const filters = document.querySelectorAll(".filter");
@@ -997,6 +1295,370 @@
     document.querySelectorAll(".reveal").forEach(element => {
       observer.observe(element);
     });
+
+
+    // ================================================================
+    // Beyond the Screen: full-screen automatic slideshow
+    // - opens like a portal from the button that was pressed
+    // - plays chapter by chapter: a title card (with a dealt stack of
+    //   polaroids), then every photo with a slow Ken Burns drift over a
+    //   blurred copy of itself, then a closing card, then loops
+    // - the photos come straight from the three .memory-card galleries,
+    //   so adding an image there adds it to the slideshow too
+    // ================================================================
+    (function () {
+      const overlay = document.getElementById("slideshow");
+      const stage = document.getElementById("ssStage");
+      const barsBox = document.getElementById("ssBars");
+      const sparkBox = document.getElementById("ssSparkles");
+      const playBtn = document.getElementById("ssPlay");
+      const fullBtn = document.getElementById("ssFull");
+      const closeBtn = document.getElementById("ssClose");
+      const prevZone = document.getElementById("ssPrev");
+      const nextZone = document.getElementById("ssNext");
+      const chapterEl = document.getElementById("ssChapter");
+      const captionEl = document.getElementById("ssCaption");
+      const countEl = document.getElementById("ssCount");
+      const replayBtn = document.getElementById("replaySlides");
+      if (!overlay) return;
+
+      const PHOTO_MS = 5500, TITLE_MS = 3800, OUTRO_MS = 7000;
+      const THEMES = [
+        { c1: "#2a0f33", c2: "#6b2a66", glow: "#ff8fb544", ac: "#ff9bbd" },
+        { c1: "#0d1f3d", c2: "#2b5a9a", glow: "#8fc7ff44", ac: "#9fd2ff" },
+        { c1: "#0f2b24", c2: "#8a6a2c", glow: "#ffd27a44", ac: "#ffd98a" }
+      ];
+
+      let chapters = [], seq = [], ranges = [], bars = [], fills = [];
+      let totalPhotos = 0, built = false;
+      let index = 0, elapsed = 0, dur = PHOTO_MS;
+      let playing = true, isOpen = false, raf = 0, last = 0, errorStreak = 0;
+
+      const pad = n => String(n).padStart(2, "0");
+      const rnd = (a, b) => a + Math.random() * (b - a);
+      function mk(tag, cls, text) {
+        const el = document.createElement(tag);
+        if (cls) el.className = cls;
+        if (text) el.textContent = text;
+        return el;
+      }
+
+      // ---- read the photos from the page -------------------------------
+      function build() {
+        built = true;
+        bars = []; fills = []; seq = []; ranges = [];
+        barsBox.innerHTML = "";
+
+        chapters = Array.from(document.querySelectorAll(".memory-card")).map(card => ({
+          title: (card.querySelector("h3")?.textContent || "Memories").trim(),
+          sub: (card.querySelector("p")?.textContent || "").trim(),
+          photos: Array.from(card.querySelectorAll(".personal-photo-grid a")).map(a => {
+            const img = a.querySelector("img");
+            return img ? { href: a.getAttribute("href"), src: img.getAttribute("src"), alt: img.getAttribute("alt") || "" } : null;
+          }).filter(Boolean)
+        })).filter(c => c.photos.length);
+
+        let n = 0;
+        chapters.forEach((c, ci) => {
+          const start = seq.length;
+          seq.push({ type: "title", ci });
+          c.photos.forEach(photo => { n++; seq.push({ type: "photo", ci, photo, n }); });
+          ranges[ci] = { start, count: seq.length - start };
+        });
+        totalPhotos = n;
+        if (chapters.length) seq.push({ type: "outro", ci: chapters.length - 1 });
+
+        chapters.forEach((c, ci) => {
+          const b = mk("button", "ss-bar");
+          b.type = "button";
+          b.setAttribute("aria-label", "Jump to " + c.title);
+          const label = mk("span", "ss-bar-label", c.title);
+          const track = mk("span", "ss-bar-track");
+          const fill = mk("i", "ss-bar-fill");
+          track.appendChild(fill);
+          b.append(label, track);
+          b.addEventListener("click", () => go(ranges[ci].start));
+          barsBox.appendChild(b);
+          bars.push(b); fills.push(fill);
+        });
+
+        // floating sparkles (negative delays so they are already mid-flight)
+        const marks = ["✦", "✧", "✶", "·", "✺"];
+        for (let i = 0; i < 22; i++) {
+          const s = mk("span", "ss-sparkle", marks[i % marks.length]);
+          s.style.left = rnd(0, 100) + "%";
+          s.style.fontSize = rnd(10, 28) + "px";
+          s.style.animationDuration = rnd(9, 19) + "s";
+          s.style.animationDelay = -rnd(0, 14) + "s";
+          sparkBox.appendChild(s);
+        }
+      }
+
+      function splitTitle(text) {
+        const frag = document.createDocumentFragment();
+        let i = 0;
+        text.split(" ").forEach((w, wi, arr) => {
+          const word = mk("span", "ss-word");
+          Array.from(w).forEach(ch => {
+            const s = mk("span", "ss-ch", ch);
+            s.style.setProperty("--i", i++);
+            word.appendChild(s);
+          });
+          frag.appendChild(word);
+          if (wi < arr.length - 1) frag.appendChild(document.createTextNode(" "));
+        });
+        return frag;
+      }
+
+      function captionFor(photo, n) {
+        const t = photo.alt.replace(/HAUDT\s*/i, "").replace(/\bphoto:?\s*/i, "").trim();
+        return t || "Moment " + pad(n);
+      }
+
+      // ---- draw the current slide --------------------------------------
+      function render() {
+        const item = seq[index];
+        dur = item.type === "photo" ? PHOTO_MS : item.type === "title" ? TITLE_MS : OUTRO_MS;
+        const theme = THEMES[item.ci % THEMES.length];
+        overlay.style.setProperty("--ss-ac", item.type === "outro" ? "#ff9bbd" : theme.ac);
+        overlay.classList.toggle("on-outro", item.type === "outro");
+
+        const el = mk("div", "ss-slide ss-" + item.type);
+        el.style.setProperty("--dur", (dur + 1200) + "ms");
+
+        if (item.type === "photo") {
+          const zoomIn = Math.random() > .35;
+          el.style.setProperty("--s0", zoomIn ? 1 : 1.08);
+          el.style.setProperty("--s1", zoomIn ? 1.08 : 1);
+          el.style.setProperty("--x0", rnd(-1.5, 1.5).toFixed(2) + "%");
+          el.style.setProperty("--y0", rnd(-1.5, 1.5).toFixed(2) + "%");
+          el.style.setProperty("--x1", rnd(-1.5, 1.5).toFixed(2) + "%");
+          el.style.setProperty("--y1", rnd(-1.5, 1.5).toFixed(2) + "%");
+
+          const bg = new Image();
+          bg.className = "ss-bg"; bg.alt = ""; bg.src = item.photo.src;
+          const box = mk("div", "ss-fgbox");
+          const fg = new Image();
+          fg.className = "ss-fg"; fg.alt = item.photo.alt; fg.src = item.photo.src;
+          fg.addEventListener("load", () => { errorStreak = 0; });
+          fg.addEventListener("error", () => {
+            // a missing file should never freeze the show: skip it
+            if (!isOpen || seq[index] !== item) return;
+            errorStreak++;
+            if (errorStreak <= seq.length) go(index + 1);
+          });
+          box.appendChild(fg);
+          el.append(bg, box);
+
+          chapterEl.textContent = chapters[item.ci].title;
+          captionEl.textContent = captionFor(item.photo, item.n);
+          countEl.textContent = pad(item.n) + " / " + pad(totalPhotos);
+        } else if (item.type === "title") {
+          const c = chapters[item.ci];
+          el.style.setProperty("--c1", theme.c1);
+          el.style.setProperty("--c2", theme.c2);
+          el.style.setProperty("--glow", theme.glow);
+          el.style.setProperty("--ac", theme.ac);
+
+          const inner = mk("div", "ss-title-inner");
+          const h = mk("h2", "ss-big");
+          h.setAttribute("aria-label", c.title);
+          h.appendChild(splitTitle(c.title));
+          inner.append(
+            mk("span", "ss-kicker", "Chapter " + pad(item.ci + 1) + " of " + pad(chapters.length)),
+            h,
+            mk("p", "ss-sub", c.sub),
+            mk("span", "ss-count", c.photos.length + " photos")
+          );
+          el.appendChild(inner);
+
+          const stack = mk("div", "ss-stack");
+          const last = c.photos.length - 1;
+          Array.from(new Set([0, Math.floor(last / 2), last])).forEach(i => {
+            const im = new Image();
+            im.alt = ""; im.src = c.photos[i].src;
+            stack.appendChild(im);
+          });
+          el.appendChild(stack);
+
+          chapterEl.textContent = "Beyond the Screen";
+          captionEl.textContent = c.title;
+          countEl.textContent = "";
+        } else {
+          const inner = mk("div", "ss-title-inner");
+          inner.style.textAlign = "center";
+          const h = mk("h2", "ss-big");
+          h.setAttribute("aria-label", "Welcome to my world.");
+          h.appendChild(splitTitle("Welcome to my world."));
+          const actions = mk("div", "ss-actions");
+          const enter = mk("button", "ss-btn primary", "Step inside ↓");
+          enter.type = "button";
+          enter.addEventListener("click", () => {
+            close();
+            setTimeout(() => {
+              const target = document.getElementById("outside-screen");
+              if (target) target.scrollIntoView({ behavior: "smooth" });
+            }, 350);
+          });
+          const again = mk("button", "ss-btn", "Watch again ↺");
+          again.type = "button";
+          again.addEventListener("click", () => go(0));
+          actions.append(enter, again);
+          inner.append(
+            mk("span", "ss-kicker", "That's the show"),
+            h,
+            mk("p", "ss-sub", "Dance, leadership and teamwork: the people and moments behind every project I build."),
+            actions
+          );
+          el.appendChild(inner);
+
+          chapterEl.textContent = "Beyond the Screen";
+          captionEl.textContent = "Thanks for watching";
+          countEl.textContent = "";
+        }
+
+        bars.forEach((b, ci) => b.classList.toggle("active", ci === item.ci));
+
+        stage.appendChild(el);
+        requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("in")));
+        Array.from(stage.children).forEach(old => {
+          if (old === el) return;
+          old.classList.remove("in");
+          old.classList.add("out");
+          setTimeout(() => old.remove(), 1300);
+        });
+      }
+
+      function preload() {
+        for (let k = 1; k <= 2; k++) {
+          const it = seq[(index + k) % seq.length];
+          if (it && it.type === "photo") { const im = new Image(); im.src = it.photo.src; }
+        }
+      }
+
+      function go(i) {
+        index = (i + seq.length) % seq.length;
+        elapsed = 0;
+        render();
+        preload();
+      }
+      const next = () => go(index + 1);
+      const prev = () => go(index - 1);
+
+      // ---- timing + progress bars --------------------------------------
+      function updateBars(frac) {
+        const cur = seq[index];
+        fills.forEach((f, ci) => {
+          let w;
+          if (cur.type === "outro" || ci < cur.ci) w = 1;
+          else if (ci > cur.ci) w = 0;
+          else w = (index - ranges[ci].start + frac) / ranges[ci].count;
+          f.style.transform = "scaleX(" + w + ")";
+        });
+      }
+      function tick(t) {
+        if (!isOpen) return;
+        const dt = Math.min(t - last, 100);
+        last = t;
+        if (playing) {
+          elapsed += dt;
+          if (elapsed >= dur) go(index + 1);
+        }
+        updateBars(Math.min(elapsed / dur, 1));
+        raf = requestAnimationFrame(tick);
+      }
+
+      function setPlaying(v) {
+        playing = v;
+        overlay.classList.toggle("paused", !v);
+        playBtn.textContent = v ? "❚❚" : "▶";
+        playBtn.setAttribute("aria-label", v ? "Pause slideshow" : "Play slideshow");
+      }
+
+      // ---- open / close --------------------------------------------------
+      function open(originEl) {
+        if (isOpen) return;
+        if (!built) build();
+        if (!seq.length) return;
+
+        const r = (originEl || modeToggle).getBoundingClientRect();
+        overlay.style.setProperty("--ox", (r.left + r.width / 2) + "px");
+        overlay.style.setProperty("--oy", (r.top + r.height / 2) + "px");
+
+        isOpen = true;
+        errorStreak = 0;
+        overlay.classList.add("open");
+        document.documentElement.classList.add("ss-lock");
+        stage.innerHTML = "";
+        setPlaying(true);
+        go(0);
+        last = performance.now();
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(tick);
+
+        // real full screen (browsers allow this because it follows a click)
+        if (overlay.requestFullscreen) {
+          const p = overlay.requestFullscreen();
+          if (p && p.catch) p.catch(() => {});
+        }
+        overlay.focus({ preventScroll: true });
+      }
+
+      function close() {
+        if (!isOpen) return;
+        isOpen = false;
+        cancelAnimationFrame(raf);
+        overlay.classList.remove("open");
+        document.documentElement.classList.remove("ss-lock");
+        if (document.fullscreenElement && document.exitFullscreen) {
+          const p = document.exitFullscreen();
+          if (p && p.catch) p.catch(() => {});
+        }
+        setTimeout(() => { if (!isOpen) stage.innerHTML = ""; }, 1100);
+      }
+
+      function toggleFull() {
+        if (document.fullscreenElement) {
+          if (document.exitFullscreen) document.exitFullscreen();
+        } else if (overlay.requestFullscreen) {
+          const p = overlay.requestFullscreen();
+          if (p && p.catch) p.catch(() => {});
+        }
+      }
+      if (!overlay.requestFullscreen) fullBtn.style.display = "none";
+
+      // ---- controls ------------------------------------------------------
+      nextZone.addEventListener("click", e => { next(); e.currentTarget.blur(); });
+      prevZone.addEventListener("click", e => { prev(); e.currentTarget.blur(); });
+      playBtn.addEventListener("click", () => setPlaying(!playing));
+      fullBtn.addEventListener("click", toggleFull);
+      closeBtn.addEventListener("click", close);
+
+      document.addEventListener("keydown", e => {
+        if (!isOpen) return;
+        if (e.key === "Escape") { close(); }
+        else if (e.key === "ArrowRight") { next(); }
+        else if (e.key === "ArrowLeft") { prev(); }
+        else if (e.key === "f" || e.key === "F") { toggleFull(); }
+        else if (e.key === " ") {
+          if (e.target.closest && e.target.closest("button, a")) return;
+          e.preventDefault();
+          setPlaying(!playing);
+        }
+      });
+
+      let touchX = null;
+      overlay.addEventListener("touchstart", e => { touchX = e.touches[0].clientX; }, { passive: true });
+      overlay.addEventListener("touchend", e => {
+        if (touchX === null) return;
+        const dx = e.changedTouches[0].clientX - touchX;
+        touchX = null;
+        if (Math.abs(dx) > 60) { dx < 0 ? next() : prev(); }
+      });
+
+      if (replayBtn) replayBtn.addEventListener("click", e => open(e.currentTarget));
+      window.openBeyondSlideshow = open;
+    })();
   </script>
 </body>
 </html>
